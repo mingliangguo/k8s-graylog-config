@@ -1,0 +1,18 @@
+---
+# Source: cp-kafka/templates/tests/canary-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "ming-kafka-canary"
+spec:
+  containers:
+  - name: kafka-canary
+    image: "confluentinc/cp-enterprise-kafka:5.2.1"
+    imagePullPolicy: "IfNotPresent"
+    command:
+    - sh
+    - -c
+    - |
+      # Delete the topic if it exists
+      tail -f /dev/null
+  restartPolicy: Never

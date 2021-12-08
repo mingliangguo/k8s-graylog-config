@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ming-counter
+  labels:
+    app: ming-counter
+spec:
+  selector:
+    matchLabels:
+      app: ming-counter
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ming-counter
+    spec:
+      containers:
+      - name: ming-counter
+        image: ubuntu
+        command: ["/bin/bash"]
+        args: ["/bin/log.sh"]
+        volumeMounts:
+        - name: script
+          mountPath: /bin/log.sh
+          subPath: log.sh
+      volumes:
+      - name: script
+        configMap:
+          name: counter
+          items:
+          - key: log_sh
+            path: log.sh

@@ -1,0 +1,17 @@
+---
+# Source: cp-zookeeper/templates/headless-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ming-zookeeper-headless
+  labels:
+    app: ming-zookeeper
+spec:
+  ports:
+    - port: 2888
+      name: server
+    - port: 3888
+      name: leader-election
+  clusterIP: None
+  selector:
+    app: ming-zookeeper

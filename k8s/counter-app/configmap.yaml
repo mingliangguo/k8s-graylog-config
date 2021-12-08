@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: counter
+  labels:
+    app: ming-counter
+data:
+  log_sh: |+
+    while true;
+    do
+      if (( "$(( RANDOM % 2 ))" == '1' )); then
+        echo '{"log_type":"audit", "short_message":"Audit log - Hello there", "host":"alpine-k8s.org", "log-level":"AUDIT", "foo":"bar"}'
+      else
+        echo '{"log_type":"app", "short_message":"Application log - Hello there", "host":"alpine-k8s.org", "log-level":"INFO", "ping":"pong"}'
+      fi
+      sleep 15;
+    done

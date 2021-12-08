@@ -1,0 +1,53 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: graylog-deploy
+  labels:
+    service: graylog-deploy
+spec:
+  selector:
+    matchLabels:
+      service: graylog-deploy
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: graylog-deploy
+    spec:
+      containers:
+      - name: graylog3
+        image: graylog/graylog:4.2.2
+        env:
+        - name: GRAYLOG_PASSWORD_SECRET
+          value: g0ABP9MJnWCjWtBX9JHFgjKAmD3wGXP3E0JQNOKlquDHnCn5689QAF8rRL66HacXLPA6fvwMY8BZoVVw0JqHnSAZorDDOdCk
+        - name: GRAYLOG_ROOT_PASSWORD_SHA2
+          value: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+        - name: GRAYLOG_HTTP_EXTERNAL_URI
+          value: http://graylog.garyks/
+        - name: GRAYLOG_ELASTICSEARCH_HOSTS
+          value: http://es6:9200
+        - name: GRAYLOG_MONGODB_URI
+          value: mongodb://mongo:27017/graylog
+        ports:
+        - containerPort: 9000
+        - containerPort: 12201
+        - containerPort: 12202
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graylog3
+spec:
+  selector:
+    service: graylog-deploy
+  ports:
+  - name: "9000"
+    protocol: TCP
+    port: 9000
+  - name: "gelf-udp"
+    protocol: UDP
+    port: 12201
+  - name: "gelf-tcp"
+    protocol: TCP
+    port: 12202

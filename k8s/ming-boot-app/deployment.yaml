@@ -1,0 +1,37 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: ming-bootapp
+spec:
+  selector:
+    matchLabels:
+      app: ming-bootapp
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: ming-bootapp
+    spec:
+      containers:
+      - name: ming-bootapp
+        image: localhost:5000/boot-app
+        ports:
+        - containerPort: 8080
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: myregkey
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ming-bootapp
+  labels:
+    app: ming-bootapp
+spec:
+  selector:
+    app: ming-bootapp
+  ports:
+  - protocol: TCP
+    port: 8080

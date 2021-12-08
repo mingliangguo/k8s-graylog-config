@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ming-cron-job
+  labels:
+    app: ming-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  jobTemplate:
+   spec:
+    template:
+     spec:
+      containers:
+      - name: ming-curl-job
+        image: alpine:3.9.4
+        args:
+        - /bin/sh
+        - -c
+        - if (( $(( RANDOM % 2 )) == 1 )); then echo '{"log_type":"audit", "short_message":"Hello there", "host":"alpine-k8s.org", "log-level":"INFO", "foo":"bar"}'; else echo '{"log_type":"app", "short_message":"Hello there", "host":"alpine-k8s.org", "log-level":"INFO", "foo":"bar"}'; fi
+# if [ foo ]; then a && b; elif [ bar ]; c && d; else e && f; fi
+      restartPolicy: OnFailure

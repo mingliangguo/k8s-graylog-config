@@ -1,0 +1,14 @@
+---
+# Source: cp-kafka/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ming-kafka
+  labels:
+    app: ming-kafka
+spec:
+  ports:
+    - port: 9092
+      name: broker
+  selector:
+    app: ming-kafka

@@ -1,0 +1,15 @@
+---
+# Source: cp-kafka/templates/headless-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ming-kafka-headless
+  labels:
+    app: ming-kafka
+spec:
+  ports:
+    - port: 9092
+      name: broker
+  clusterIP: None
+  selector:
+    app: ming-kafka

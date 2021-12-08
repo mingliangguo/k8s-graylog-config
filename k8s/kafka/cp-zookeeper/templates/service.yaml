@@ -1,0 +1,14 @@
+---
+# Source: cp-zookeeper/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: ming-zookeeper
+  labels:
+    app: ming-zookeeper
+spec:
+  ports:
+    - port: 2181
+      name: client
+  selector:
+    app: ming-zookeeper

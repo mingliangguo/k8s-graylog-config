@@ -1,0 +1,22 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: graylog-ingress
+  namespace: default
+spec:
+  rules:
+    - host: graylog.garyks
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: graylog3
+            servicePort: 9000
+    - host: bootapp.garyks
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: ming-bootapp
+            servicePort: 8080

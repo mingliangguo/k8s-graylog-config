@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+      maven {
+        url "https://plugins.gradle.org/m2/"
+      }
+      mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.3.+')
+    }
+}
+
+ext {
+    LIB_LOMBOK="1.18.+"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'springio'
+
+bootJar {
+    baseName = 'gs-spring-boot-docker'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-web") 
+    compile("net.logstash.logback:logstash-logback-encoder:+")
+    compileOnly "org.projectlombok:lombok:$LIB_LOMBOK"
+    testCompileOnly "org.projectlombok:lombok:$LIB_LOMBOK"
+    annotationProcessor "org.projectlombok:lombok:$LIB_LOMBOK"
+    testAnnotationProcessor "org.projectlombok:lombok:$LIB_LOMBOK"
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
